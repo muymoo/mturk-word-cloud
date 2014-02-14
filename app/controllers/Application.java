@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * Main entrance to the application. See conf/routes for mappings between the api and controllers.
  * 
- * @author 204054399
  */
 public class Application extends Controller
 {

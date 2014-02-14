@@ -23,8 +23,7 @@ import com.amazonaws.mturk.service.exception.ServiceException;
 import com.amazonaws.mturk.util.PropertiesClientConfig;
 
 /**
- * 
- * @author 204054399
+ * This class acts as an interface to Mechanical Turk
  */
 public class MechanicalTurkService
 {
