@@ -7,7 +7,7 @@ Mechanical Turk Word Cloud
 2. Play 2.2.1: http://www.playframework.com/download. Just download, unzip, and add the play folder to your PATH
 
 ### Add AWS Keys
-Before you run the application, be sure to update the conf/mturk.properties file with your `access_key` and `secret_key`
+Before you run the application, be sure to update the `conf/mturk.properties` file with your `access_key` and `secret_key`
 
 ### Running
 From the root directory, type `play run` and navigate to `http://localhost:9000` in your browser. For more information on developing with Play, see: http://www.playframework.com/documentation/2.2.x/Home
