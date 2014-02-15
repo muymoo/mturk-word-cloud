@@ -11,11 +11,13 @@
 package services;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import play.Logger;
 
 import com.amazonaws.mturk.dataschema.QuestionFormAnswers;
+import com.amazonaws.mturk.dataschema.QuestionFormAnswersType;
 import com.amazonaws.mturk.requester.Assignment;
 import com.amazonaws.mturk.requester.AssignmentStatus;
 import com.amazonaws.mturk.requester.HIT;
@@ -89,24 +91,38 @@ public class MechanicalTurkService
     {
         Map<String, Integer> wordCounts = new HashMap<String, Integer>();
 
-        for (Assignment assigment : assignments)
+        for (Assignment assignment : assignments)
         {
-            if ( assigment.getAssignmentStatus() == AssignmentStatus.Submitted )
+            if ( isSubmitted(assignment) )
             {
-                // TODO: This is an XML string
-                String word = assigment.getAnswer();
+                String answerXML = assignment.getAnswer();
                 
-                // TODO: This is some parsing code that should get you close. See the Reviewer sample for more info.
-                // QuestionFormAnswers questionFormAnswers = RequesterService.parseAnswers(word);
-                // questionFormAnswers.getAnswer();
+                Logger.debug("Answer as XML: " + answerXML);
                 
-                // Increment word count
-                int count = wordCounts.containsKey(word) ? wordCounts.get(word) : 0;
-                wordCounts.put(word, count);
+                QuestionFormAnswers questionFormAnswers = RequesterService.parseAnswers(answerXML);
+                questionFormAnswers.getAnswer();
+
+                List<QuestionFormAnswersType.AnswerType> answers = (List<QuestionFormAnswersType.AnswerType>) questionFormAnswers
+                        .getAnswer();
+                for (QuestionFormAnswersType.AnswerType answer : answers)
+                {
+                    String assignmentId = assignment.getAssignmentId();
+                    String word = RequesterService.getAnswerValue(assignmentId, answer);
+
+                    // Increment word count
+                    int count = wordCounts.containsKey(word) ? wordCounts.get(word) : 0;
+                    wordCounts.put(word, count + 1);
+                    Logger.debug("Word added: " + word + " : " + count + 1);
+                }
             }
         }
 
         return wordCounts;
+    }
+
+    private boolean isSubmitted(Assignment assignment)
+    {
+        return assignment.getAssignmentStatus() == AssignmentStatus.Submitted;
     }
 
 }
