@@ -11,3 +11,5 @@ Before you run the application, be sure to update the `conf/mturk.properties` fi
 
 ### Running
 From the root directory, type `play run` and navigate to `http://localhost:9000` in your browser. For more information on developing with Play, see: http://www.playframework.com/documentation/2.2.x/Home
+
+If you are using eclipse, type `play eclipse` from the command line to create project files and then import as existing project into eclipse.
