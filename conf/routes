@@ -5,7 +5,6 @@
 
 # Home page
 GET     /                           controllers.Assets.at(path="/public", file="index.html")
-GET     /cloud                      controllers.Assets.at(path="/public", file="cloud.html")
 
 # Routes to handle HIT interaction
 POST	/api/hit					controllers.Application.createHit()
