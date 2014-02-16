@@ -18,6 +18,7 @@ $(function() {
 			success : function(data) {
 				// TODO: Print URL where they can see the hits
 				alert('success ' + data);
+				console.log('Success: ' + data);
 			},
 			error : function(data) {
 				alert('ajax failed' + data);
