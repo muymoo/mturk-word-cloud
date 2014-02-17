@@ -45,7 +45,7 @@ public class MechanicalTurkService
      * @param assignments Number of assignments to run
      * @return ID of new hit
      */
-    public String createHit(String url, int assignments)
+    public Map<String, String> createHit(String url, int assignments)
     {
         Logger.debug("Creating hit: " + url + " Assignments: " + assignments);
 
@@ -59,17 +59,23 @@ public class MechanicalTurkService
 
         HIT hit = service.createHIT("Describe a Web Page", question, reward, question, assignments);
 
-        Logger.debug("View HIT here: " + service.getWebsiteURL() + "/mturk/preview?groupId=" + hit.getHITTypeId());
+        String hitURL = service.getWebsiteURL() + "/mturk/preview?groupId=" + hit.getHITTypeId();
+        Logger.debug("View HIT here: " + hitURL);
+
+        Map<String, String> result = new HashMap<String, String>();
 
         // TODO: I'm not sure if this is the right ID to return to find the hit again. It doesn't seem to work. There is a different ID on the actual HIT page
         // that is used to retrieve the assignments. Could be .getHITGroupId() ??
-        return hit.getHITId();
+        result.put("hitId", hit.getHITId());
+        result.put("hitURL", hitURL);
+
+        return result;
     }
 
     /**
      * Ex.
      * {"lovely":15, "happy":2, "nice": 3, ...}
-     * 
+     *
      * @param hitId
      * @return Frequency map of words and their counts
      */
@@ -83,7 +89,7 @@ public class MechanicalTurkService
 
     /**
      * Parses a list of assignments an pulls out the descriptive word answers.
-     * 
+     *
      * @param assignments
      * @return A map of words and their counts
      */
@@ -96,9 +102,9 @@ public class MechanicalTurkService
             if ( isSubmitted(assignment) )
             {
                 String answerXML = assignment.getAnswer();
-                
+
                 Logger.debug("Answer as XML: " + answerXML);
-                
+
                 QuestionFormAnswers questionFormAnswers = RequesterService.parseAnswers(answerXML);
                 questionFormAnswers.getAnswer();
 

@@ -17,8 +17,14 @@ $(function() {
 			}),
 			success : function(data) {
 				// TODO: Print URL where they can see the hits
-				alert('success ' + data);
-				console.log('Success: ' + data);
+				alert('success ' + JSON.stringify(data));
+				console.log('Success: ' + JSON.stringify(data));
+
+				// Set the value of the HIT input box to this data.
+				$('#id').val(data.hitId);
+
+				// Open the new HIT in a new window
+				window.open(data.hitURL, '_blank');
 			},
 			error : function(data) {
 				alert('ajax failed' + data);
