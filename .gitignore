@@ -1,0 +1,16 @@
+
+.classpath
+
+.project
+
+logs/application.log
+
+.target/**
+
+.settings/**
+
+target/**
+
+project/target/**
+
+project/project/**
