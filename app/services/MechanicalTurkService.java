@@ -30,7 +30,6 @@ import com.amazonaws.mturk.util.PropertiesClientConfig;
 public class MechanicalTurkService
 {
     private RequesterService service;
-    private double           reward = 0.05;
 
     /**
      * Initialize the Mechanical Turk service
@@ -45,7 +44,7 @@ public class MechanicalTurkService
      * @param assignments Number of assignments to run
      * @return ID of new hit
      */
-    public Map<String, String> createHit(String url, int assignments)
+    public Map<String, String> createHit(String url, int assignments, Double reward)
     {
         Logger.debug("Creating hit: " + url + " Assignments: " + assignments);
 

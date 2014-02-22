@@ -34,10 +34,11 @@ public class Application extends Controller
         JsonNode hitRequest = request().body().asJson();
         String url = hitRequest.get("url").textValue();
         int assignments = hitRequest.get("assignments").asInt();
+        Double reward = hitRequest.get("reward").asDouble();
 
         Logger.debug("Got request for URL: " + url + " Assignments: " + assignments);
 
-        HashMap<String, String> hitMap = (HashMap<String, String>) turk.createHit(url, assignments);
+        HashMap<String, String> hitMap = (HashMap<String, String>) turk.createHit(url, assignments, reward);
 
         hitMap.put("assignments", Integer.toString(assignments));
         hitMap.put("url", url);

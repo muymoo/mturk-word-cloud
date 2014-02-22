@@ -13,7 +13,8 @@ $(function() {
 			contentType : 'application/json',
 			data : JSON.stringify({
 				url : $('#url').val(),
-				assignments : $('#assignments').val()
+				assignments : $('#assignments').val(),
+				reward: $('#reward').val()
 			}),
 			success : function(data) {
 				// TODO: Print URL where they can see the hits
