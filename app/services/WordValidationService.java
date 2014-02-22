@@ -1,6 +1,5 @@
 package services;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.regex.Matcher;
@@ -26,10 +25,9 @@ public class WordValidationService {
 		
 		WordDefinition definition;
 		try {
-			String trimmedLowercase = trimPunctuation(word).toLowerCase();
-			definition = requestDefinition(trimmedLowercase);
+			definition = requestDefinition(trimPunctuation(word).toLowerCase());
 		}
-		catch (IOException e) {
+		catch (Exception e) {
 			//give the word the benefit of the doubt if request fails.
 			return true;
 		}
@@ -54,7 +52,7 @@ public class WordValidationService {
 		return trimmed;
 	}
 	
-	private WordDefinition requestDefinition(String word) throws IOException 
+	private WordDefinition requestDefinition(String word) throws Exception 
 	{
 		return new WordDefinition(word);
 	}
@@ -65,22 +63,17 @@ public class WordValidationService {
 	{		
 		private Document document;
 		
-		public WordDefinition(String word) 
+		public WordDefinition(String word) throws Exception
 		{
-			try {
-				URL url = new URI("http", "www.dictionaryapi.com", "/api/v1/references/collegiate/xml/" + word, "key=" + API_KEY, null).toURL();
-				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder builder;
-				builder = factory.newDocumentBuilder();
-				document = builder.parse(url.toString());
-			} catch (Exception e) {
-				System.out.println("Error: Could not create DOM parser.");
-				return;
-			}
+			URL url = new URI("http", "www.dictionaryapi.com", "/api/v1/references/collegiate/xml/" + word, "key=" + API_KEY, null).toURL();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder;
+			builder = factory.newDocumentBuilder();
+			document = builder.parse(url.toString());
 		}
 		
 		public boolean hasDefinitions()
-		{
+		{	
 			NodeList nodes = document.getDocumentElement().getElementsByTagName(ENTRY_TAG);
 			return nodes.getLength() > 0;
 		}
