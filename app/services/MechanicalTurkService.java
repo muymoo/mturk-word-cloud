@@ -107,8 +107,10 @@ public class MechanicalTurkService
                 QuestionFormAnswers questionFormAnswers = RequesterService.parseAnswers(answerXML);
                 questionFormAnswers.getAnswer();
 
-                List<QuestionFormAnswersType.AnswerType> answers = (List<QuestionFormAnswersType.AnswerType>) questionFormAnswers
-                        .getAnswer();
+                @SuppressWarnings("unchecked")
+                List<QuestionFormAnswersType.AnswerType> answers 
+                	= (List<QuestionFormAnswersType.AnswerType>) questionFormAnswers.getAnswer();
+                
                 for (QuestionFormAnswersType.AnswerType answer : answers)
                 {
                     String assignmentId = assignment.getAssignmentId();
