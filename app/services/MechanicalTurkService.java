@@ -56,7 +56,7 @@ public class MechanicalTurkService
 
         Logger.debug("Creating question: " + question);
 
-        HIT hit = service.createHIT("Describe a Web Page", question, reward, question, assignments);
+        HIT hit = service.createHIT("Describe an image in 3 words", "Describe an image in 3 words", reward, question, assignments);
 
         String hitURL = service.getWebsiteURL() + "/mturk/preview?groupId=" + hit.getHITTypeId();
         Logger.debug("View HIT here: " + hitURL);
@@ -116,6 +116,12 @@ public class MechanicalTurkService
                     String assignmentId = assignment.getAssignmentId();
                     String word = RequesterService.getAnswerValue(assignmentId, answer);
 
+                    // Make word lowercase & trim off spaces
+                    word = word.toLowerCase();
+                    word = word.trim();
+                    
+                    // TODO : add hook up to validation
+                    
                     // Increment word count
                     int count = wordCounts.containsKey(word) ? wordCounts.get(word) : 0;
                     wordCounts.put(word, count + 1);

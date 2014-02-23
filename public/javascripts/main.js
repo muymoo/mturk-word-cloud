@@ -45,8 +45,8 @@ $(function() {
 			dataType : 'json',
 			contentType : 'application/json',
 			success : function(data) {
-				var wordArray = convertToWordArray(data);
-				printWordCloud(wordArray);
+				var wordArray = convertToWordArray(data.wordArray);
+				printWordCloud(wordArray, data.maxCount);
 			},
 			error : function(data) {
 				alert('ajax failed' + data);
@@ -59,26 +59,26 @@ $(function() {
 		$.each(data, function(key, value) {
 			wordArray.push({
 				text : key,
-				size : value + Math.random() * 90
+				size : value
 			});
 		});
 		return wordArray;
 	}
 
-	function printWordCloud(wordArray) {
+	function printWordCloud(wordArray, maxCount) {
 		// Print word cloud
 		var fill = d3.scale.category20();
 
-		d3.layout.cloud().size([ 300, 300 ]).words(wordArray).padding(5)
-				.rotate(function() {
-					return ~~(Math.random() * 2) * 90;
+		d3.layout.cloud().size([800, 500]).words(wordArray).padding(1)
+				.rotate(function(d) { 
+					return ~~(Math.random() * 5) * 30 - 60;
 				}).font("Impact").fontSize(function(d) {
-					return d.size;
+					return (d.size / maxCount)*100;
 				}).on("end", draw).start();
 
 		function draw(words) {
-			d3.select("#cloud").append("svg").attr("width", 300).attr("height",
-					300).append("g").attr("transform", "translate(150,150)")
+			d3.select("#cloud").append("svg").attr("width", 800).attr("height",
+					500).append("g").attr("transform", "translate(400,250)")
 					.selectAll("text").data(words).enter().append("text")
 					.style("font-size", function(d) {
 						return d.size + "px";
