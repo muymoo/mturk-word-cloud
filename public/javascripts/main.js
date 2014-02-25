@@ -73,7 +73,11 @@ $(function() {
 				.rotate(function(d) { 
 					return ~~(Math.random() * 5) * 30 - 60;
 				}).font("Impact").fontSize(function(d) {
-					return (d.size / maxCount)*100;
+					var size = (d.size / maxCount)*100;
+					if(size < 10) {
+						size = 10;
+					}
+					return size;
 				}).on("end", draw).start();
 
 		function draw(words) {

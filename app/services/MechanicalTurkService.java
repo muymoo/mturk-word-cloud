@@ -120,12 +120,21 @@ public class MechanicalTurkService
                     word = word.toLowerCase();
                     word = word.trim();
                     
-                    // TODO : add hook up to validation
+                    // validate words
+                    WordValidationService validator = new WordValidationService();
                     
-                    // Increment word count
-                    int count = wordCounts.containsKey(word) ? wordCounts.get(word) : 0;
-                    wordCounts.put(word, count + 1);
-                    Logger.debug("Word added: " + word + " : " + count + 1);
+                    if(wordCounts.containsKey(word)) {
+                    	// Increment word count
+	                    int count = wordCounts.containsKey(word) ? wordCounts.get(word) : 0;
+	                    wordCounts.put(word, count + 1);
+                    }
+                    else {
+                    	if(validator.isValid(word)) {
+                    		// Increment word count
+    	                    int count = wordCounts.containsKey(word) ? wordCounts.get(word) : 0;
+    	                    wordCounts.put(word, count + 1);
+                    	}
+                    }
                 }
             }
         }
