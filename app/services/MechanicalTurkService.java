@@ -98,7 +98,7 @@ public class MechanicalTurkService
 
         for (Assignment assignment : assignments)
         {
-            if ( isSubmitted(assignment) )
+            if ( isSubmittedOrApproved(assignment) )
             {
                 String answerXML = assignment.getAnswer();
 
@@ -133,9 +133,10 @@ public class MechanicalTurkService
         return wordCounts;
     }
 
-    private boolean isSubmitted(Assignment assignment)
+    private boolean isSubmittedOrApproved(Assignment assignment)
     {
-        return assignment.getAssignmentStatus() == AssignmentStatus.Submitted;
+        return assignment.getAssignmentStatus() == AssignmentStatus.Submitted
+        		|| assignment.getAssignmentStatus() == AssignmentStatus.Approved;
     }
 
 }
